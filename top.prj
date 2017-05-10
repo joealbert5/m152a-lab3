@@ -1,0 +1,4 @@
+verilog work "time_ctr.v"
+verilog work "display_time.v"
+verilog work "clk_divider.v"
+verilog work "top.v"
