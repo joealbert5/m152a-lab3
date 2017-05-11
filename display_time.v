@@ -30,8 +30,64 @@ module display_time(
 	 
 	  reg [3:0] an;
 	  reg [7:0] seg;
-	 
-	 always@ (posedge clk) begin
+	integer sel;
+	reg [3:0] selValue;
+	always @(posedge clk) begin
+		if(shit_bit == 4)
+			sel <= 0;
+		else begin
+			case(sel)
+				0:an <= 4'b1110;  selValue <= sec0;
+				1:an <= 4'b1101;  selValue <= sec1;
+				2:an <= 4'b1011;  selValue <= min0;
+				4:an <= 4'b0111;  selValue <= min1;
+			endcase
+				
+			if(selValue != 1 && selValue != 4)
+				seg[0] <= 0;
+			else
+				seg[0] <= 1;
+			
+			if(selValue != 5 && selValue != 6)
+				seg[1] <= 0;
+			else
+				seg[1] <= 1;
+			
+			if(selValue != 2)
+				seg[2] <= 0;
+			else
+				seg[2] <= 1;
+			
+			if(selValue != 1 && selValue != 4 && selValue != 7 && selValue != 9)
+				seg[3] <= 0;
+			else
+				seg[3] <= 1;
+			
+			if(selValue == 0 || selValue == 2 || selValue == 6 || selValue == 8)
+				seg[4] <= 0;
+			else
+				seg[4] <= 1;
+			
+			if(selValue != 1 && selValue != 2 && selValue != 3 && selValue != 7)
+				seg[5] <= 0;
+			else
+				seg[5] <= 1;
+			
+			if(selValue != 0 && selValue != 1 && selValue != 7)
+				seg[6] <= 0;
+			else
+				seg[6] <= 1;
+			
+			seg[7] <= 0;
+			sel = sel + 1;
+		end
+	end
+	
+			
+
+		
+/*	 
+ 	 always@ (posedge clk) begin
 		
 		an[0] = 0;
 		if (sec0 == 1)
@@ -249,7 +305,7 @@ module display_time(
 			seg[6]=1;
 	end
 	endtask
-	
+*/	
 	assign an_out = an;
 	assign seg_out = seg;
 			
