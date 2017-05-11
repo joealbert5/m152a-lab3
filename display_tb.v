@@ -86,6 +86,7 @@ module display_tb;
 				end
 			end
 		end
+		$finish;
 
 	end
       
