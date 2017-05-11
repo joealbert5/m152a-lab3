@@ -33,7 +33,7 @@ module display_time(
 	integer sel;
 	reg [3:0] selValue;
 	always @(posedge clk) begin
-		if(shit_bit == 4)
+		if(sel == 4)
 			sel <= 0;
 		else begin
 			case(sel)
