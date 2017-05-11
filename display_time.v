@@ -19,26 +19,120 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module display_time(
-    input [3:0] digit_in,
-	 output [7:0] seg_out
+    input [2:0] min1,
+    input [3:0] min0,
+    input [2:0] sec1,
+    input [3:0] sec0,
+	 input clk,
+	 output reg [3:0] an,
+	 output reg [7:0] seg
     );
-	  reg [7:0] digit;
 	 
+	 integer j = 0;
+	
 	 always@ (posedge clk) begin
-		case(digit_in)
-			4'b0000: digit = 8'b11000000;
-			4'b0001: digit = 8'b11111001;
-			4'b0010: digit = 8'b10100100;
-			4'b0011: digit = 8'b10110000;
-			4'b0100: digit = 8'b10011001;
-			4'b0101: digit = 8'b10010010;
-			4'b0110: digit = 8'b10000010;
-			4'b0111: digit = 8'b11111000;
-			4'b1000: digit = 8'b10000000;
-			4'b1001: digit = 8'b10010000;
-		endcase
-	end
+		if (j == 0)
+		begin
+			an = 15;
+			seg = 255;
+		end
+	 
+		// sec0
+		if (j == 1)
+		begin
+			an = 14;
+			case(sec0)
+				0: seg = 192; // zero
+				1: seg = 249; // one
+				2: seg = 164; // is this format faster?
+				3: seg = 176;
+				4: seg = 153;
+				5: seg = 146;
+				6: seg = 130;
+				7: seg = 248;
+				8: seg = 128;
+				9: seg = 144;
+			endcase
+		end
+		else if (j == 2)
+		begin
+			an = 15;
+			seg = 255;
+		end
 		
-	assign seg_out = digit;
+		// sec1
+		if (j == 3)
+		begin
+			an = 13;
+			case(sec1)
+				0: seg = 192;
+				1: seg = 249;
+				2: seg = 164;
+				3: seg = 176;
+				4: seg = 153;
+				5: seg = 146;
+				6: seg = 130;
+				7: seg = 248;
+				8: seg = 128;
+				9: seg = 144;
+			endcase
+		end
+		if (j == 4)
+		begin
+			an = 15;
+			seg = 255;
+		end
+		
+		// min0
+		if (j == 5)
+		begin
+			an = 11;
+			case(min0)
+				0: seg = 192;
+				1: seg = 249;
+				2: seg = 164;
+				3: seg = 176;
+				4: seg = 153;
+				5: seg = 146;
+				6: seg = 130;
+				7: seg = 248;
+				8: seg = 128;
+				9: seg = 144;
+			endcase
+		end
+		if (j == 6)
+		begin
+			an = 15;
+			seg = 255;
+		end
+		
+		// min1
+		
+		if (j == 7)
+		begin
+			an = 7;
+			case(min1)
+				0: seg = 192;
+				1: seg = 249;
+				2: seg = 164;
+				3: seg = 176;
+				4: seg = 153;
+				5: seg = 146;
+				6: seg = 130;
+				7: seg = 248;
+				8: seg = 128;
+				9: seg = 144;
+			endcase
+		end
+		if (j == 8)
+		begin
+			an = 15;
+			seg = 255;
+			j = -1;
+		end
+		
+		j = j + 1;
+		
+	 end
 			
 endmodule
