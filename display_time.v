@@ -19,238 +19,26 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module display_time(
-    input [2:0] min1,
-    input [3:0] min0,
-    input [2:0] sec1,
-    input [3:0] sec0,
-	 input clk,
-	 output [3:0] an_out,
+    input [3:0] digit_in,
 	 output [7:0] seg_out
     );
-	 
-	  reg [3:0] an;
-	  reg [7:0] seg;
+	  reg [7:0] digit;
 	 
 	 always@ (posedge clk) begin
-		
-		an[0] = 0;
-		if (sec0 == 1)
-		begin
-			seg[0]=0;
-			seg[1]=0;
-			seg[2]=0;
-			seg[3]=0;
-			seg[4]=0;
-			seg[5]=0;
-			seg[6]=1;
-		end
-		case(sec0)
-			0: zero;
-			1: one;
-			2: two;
-			3: three;
-			4: four;
-			5: five;
-			6: six;
-			7: seven;
-			8: eight;
-			9: nine;
+		case(digit_in)
+			4'b0000: digit = 8'b11000000;
+			4'b0001: digit = 8'b11111001;
+			4'b0010: digit = 8'b10100100;
+			4'b0011: digit = 8'b10110000;
+			4'b0100: digit = 8'b10011001;
+			4'b0101: digit = 8'b10010010;
+			4'b0110: digit = 8'b10000010;
+			4'b0111: digit = 8'b11111000;
+			4'b1000: digit = 8'b10000000;
+			4'b1001: digit = 8'b10010000;
 		endcase
-		an[0] = 1;
-
-		
-		an[1] = 0;
-		case(sec1)
-			0: zero;
-			1: one;
-			2: two;
-			3: three;
-			4: four;
-			5: five;
-			6: six;
-			7: seven;
-			8: eight;
-			9: nine;
-		endcase
-		an[1] = 1;
-	
-		
-		an[2] = 0;
-		case(min0)
-			0: zero;
-			1: one;
-			2: two;
-			3: three;
-			4: four;
-			5: five;
-			6: six;
-			7: seven;
-			8: eight;
-			9: nine;
-		endcase
-		an[2] = 1;
-
-		
-		an[3] = 0;
-		case(min1)
-			0: zero;
-			1: one;
-			2: two;
-			3: three;
-			4: four;
-			5: five;
-			6: six;
-			7: seven;
-			8: eight;
-			9: nine;
-		endcase
-		an[3] = 1;
-		
-		
-		an[0] = 0;
-		an[1] = 0;
-		an[2] = 0;
-		an[3] = 0;
-		clear;
-		an[0] = 1;
-		an[1] = 1;
-		an[2] = 1;
-		an[3] = 1;
-	 end
-	 
-	 task zero;
-		begin
-			seg[0]=0;
-			seg[1]=0;
-			seg[2]=0;
-			seg[3]=0;
-			seg[4]=0;
-			seg[5]=0;
-			seg[6]=1;
-		end
-	endtask
-	
-	task one;
-	begin
-			seg[0]=1;
-			seg[1]=0;
-			seg[2]=0;
-			seg[3]=1;
-			seg[4]=1;
-			seg[5]=1;
-			seg[6]=1;
-		end
-	endtask
-	
-	task two;
-	begin
-			seg[0]=0;
-			seg[1]=0;
-			seg[2]=1;
-			seg[3]=0;
-			seg[4]=0;
-			seg[5]=1;
-			seg[6]=0;
-		end
-	endtask
-	
-	task three;
-	begin
-			seg[0]=0;
-			seg[1]=0;
-			seg[2]=0;
-			seg[3]=0;
-			seg[4]=1;
-			seg[5]=1;
-			seg[6]=0;
-		end
-	endtask
-	
-	task four;
-	begin
-			seg[0]=1;
-			seg[1]=0;
-			seg[2]=0;
-			seg[3]=1;
-			seg[4]=1;
-			seg[5]=0;
-			seg[6]=0;
-		end
-	endtask
-	
-	task five;
-	begin
-			seg[0]=0;
-			seg[1]=1;
-			seg[2]=0;
-			seg[3]=0;
-			seg[4]=1;
-			seg[5]=0;
-			seg[6]=0;
-		end
-	endtask
-	
-	task six;
-	begin
-			seg[0]=0;
-			seg[1]=1;
-			seg[2]=0;
-			seg[3]=0;
-			seg[4]=0;
-			seg[5]=0;
-			seg[6]=0;
-		end
-	endtask
-	
-	task seven;
-	begin
-			seg[0]=0;
-			seg[1]=0;
-			seg[2]=0;
-			seg[3]=1;
-			seg[4]=1;
-			seg[5]=1;
-			seg[6]=1;
-		end
-	endtask
-	
-	task eight;
-	begin
-			seg[0]=0;
-			seg[1]=0;
-			seg[2]=0;
-			seg[3]=0;
-			seg[4]=0;
-			seg[5]=0;
-			seg[6]=0;
-		end
-	endtask
-	
-	task nine;
-	begin
-			seg[0]=0;
-			seg[1]=0;
-			seg[2]=0;
-			seg[3]=0;
-			seg[4]=1;
-			seg[5]=0;
-			seg[6]=0;
-		end
-	endtask
-	
-	task clear;
-	begin
-			seg[0]=1;
-			seg[1]=1;
-			seg[2]=1;
-			seg[3]=1;
-			seg[4]=1;
-			seg[5]=1;
-			seg[6]=1;
 	end
-	endtask
-	
-	assign an_out = an;
-	assign seg_out = seg;
+		
+	assign seg_out = digit;
 			
 endmodule

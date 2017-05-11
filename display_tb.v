@@ -32,18 +32,23 @@ module display_tb;
 	reg clk;
 
 	// Outputs
-	wire [3:0] an;
-	wire [7:0] seg;
+	wire [3:0] an_out;
+	 wire [7:0] min1_out;
+	 wire [7:0] min0_out;
+	 wire [7:0] sec1_out;
+	 wire [7:0] sec0_out;
 
 	// Instantiate the Unit Under Test (UUT)
 	display_time uut (
-		.min1(min1), 
-		.min0(min0), 
-		.sec1(sec1), 
-		.sec0(sec0), 
+		.min1_in(min1), 
+		.min0_in(min0), 
+		.sec1_in(sec1), 
+		.sec0_in(sec0), 
 		.clk(clk), 
-		.an_out(an), 
-		.seg_out(seg)
+		.min1_out(min1_out), 
+		.min0_out(min0_out),
+		.sec1_out(sec1_out),
+		.sec0_out(sec0_out)
 	);
 	integer i;
 	initial begin
@@ -63,9 +68,27 @@ module display_tb;
 		begin
 			clk = ~clk;
 			#10;
+			//always@ (posedge clk) 
+			begin
+				if (clk) 
+				begin
+					sec0 = sec0 + 1;
+					if (sec0 == 10) begin
+						sec1 = sec1 + 1;
+						sec0 = 0;
+					end
+					if (sec1 == 6) begin
+						min0 = min0 + 1;
+						sec1 = 0;
+					end
+					if (min0 == 10) begin
+						min1 = min1 + 1;
+						min1 = 0;
+					end
+				end
+			end
 		end
-		$finish;
-	end
-      
+			$finish;
+     end 
 endmodule
 
