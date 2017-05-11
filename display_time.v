@@ -24,233 +24,115 @@ module display_time(
     input [2:0] sec1,
     input [3:0] sec0,
 	 input clk,
-	 output [3:0] an_out,
-	 output [7:0] seg_out
+	 output reg [3:0] an,
+	 output reg [7:0] seg
     );
 	 
-	  reg [3:0] an;
-	  reg [7:0] seg;
-	 
+	 integer j = 0;
+	
 	 always@ (posedge clk) begin
-		
-		an[0] = 0;
-		if (sec0 == 1)
+		if (j == 0)
 		begin
-			seg[0]=0;
-			seg[1]=0;
-			seg[2]=0;
-			seg[3]=0;
-			seg[4]=0;
-			seg[5]=0;
-			seg[6]=1;
+			an = 15;
+			seg = 255;
 		end
-		case(sec0)
-			0: zero;
-			1: one;
-			2: two;
-			3: three;
-			4: four;
-			5: five;
-			6: six;
-			7: seven;
-			8: eight;
-			9: nine;
-		endcase
-		an[0] = 1;
-
-		
-		an[1] = 0;
-		case(sec1)
-			0: zero;
-			1: one;
-			2: two;
-			3: three;
-			4: four;
-			5: five;
-			6: six;
-			7: seven;
-			8: eight;
-			9: nine;
-		endcase
-		an[1] = 1;
-	
-		
-		an[2] = 0;
-		case(min0)
-			0: zero;
-			1: one;
-			2: two;
-			3: three;
-			4: four;
-			5: five;
-			6: six;
-			7: seven;
-			8: eight;
-			9: nine;
-		endcase
-		an[2] = 1;
-
-		
-		an[3] = 0;
-		case(min1)
-			0: zero;
-			1: one;
-			2: two;
-			3: three;
-			4: four;
-			5: five;
-			6: six;
-			7: seven;
-			8: eight;
-			9: nine;
-		endcase
-		an[3] = 1;
-		
-		
-		an[0] = 0;
-		an[1] = 0;
-		an[2] = 0;
-		an[3] = 0;
-		clear;
-		an[0] = 1;
-		an[1] = 1;
-		an[2] = 1;
-		an[3] = 1;
-	 end
 	 
-	 task zero;
+		// sec0
+		if (j == 1)
 		begin
-			seg[0]=0;
-			seg[1]=0;
-			seg[2]=0;
-			seg[3]=0;
-			seg[4]=0;
-			seg[5]=0;
-			seg[6]=1;
+			an = 14;
+			case(sec0)
+				0: seg = 192; // zero
+				1: seg = 249; // one
+				2: seg = 164; // is this format faster?
+				3: seg = 176;
+				4: seg = 153;
+				5: seg = 146;
+				6: seg = 130;
+				7: seg = 248;
+				8: seg = 128;
+				9: seg = 144;
+			endcase
 		end
-	endtask
-	
-	task one;
-	begin
-			seg[0]=1;
-			seg[1]=0;
-			seg[2]=0;
-			seg[3]=1;
-			seg[4]=1;
-			seg[5]=1;
-			seg[6]=1;
+		else if (j == 2)
+		begin
+			an = 15;
+			seg = 255;
 		end
-	endtask
-	
-	task two;
-	begin
-			seg[0]=0;
-			seg[1]=0;
-			seg[2]=1;
-			seg[3]=0;
-			seg[4]=0;
-			seg[5]=1;
-			seg[6]=0;
+		
+		// sec1
+		if (j == 3)
+		begin
+			an = 13;
+			case(sec1)
+				0: seg = 192;
+				1: seg = 249;
+				2: seg = 164;
+				3: seg = 176;
+				4: seg = 153;
+				5: seg = 146;
+				6: seg = 130;
+				7: seg = 248;
+				8: seg = 128;
+				9: seg = 144;
+			endcase
 		end
-	endtask
-	
-	task three;
-	begin
-			seg[0]=0;
-			seg[1]=0;
-			seg[2]=0;
-			seg[3]=0;
-			seg[4]=1;
-			seg[5]=1;
-			seg[6]=0;
+		if (j == 4)
+		begin
+			an = 15;
+			seg = 255;
 		end
-	endtask
-	
-	task four;
-	begin
-			seg[0]=1;
-			seg[1]=0;
-			seg[2]=0;
-			seg[3]=1;
-			seg[4]=1;
-			seg[5]=0;
-			seg[6]=0;
+		
+		// min0
+		if (j == 5)
+		begin
+			an = 11;
+			case(min0)
+				0: seg = 192;
+				1: seg = 249;
+				2: seg = 164;
+				3: seg = 176;
+				4: seg = 153;
+				5: seg = 146;
+				6: seg = 130;
+				7: seg = 248;
+				8: seg = 128;
+				9: seg = 144;
+			endcase
 		end
-	endtask
-	
-	task five;
-	begin
-			seg[0]=0;
-			seg[1]=1;
-			seg[2]=0;
-			seg[3]=0;
-			seg[4]=1;
-			seg[5]=0;
-			seg[6]=0;
+		if (j == 6)
+		begin
+			an = 15;
+			seg = 255;
 		end
-	endtask
-	
-	task six;
-	begin
-			seg[0]=0;
-			seg[1]=1;
-			seg[2]=0;
-			seg[3]=0;
-			seg[4]=0;
-			seg[5]=0;
-			seg[6]=0;
+		
+		// min1
+		
+		if (j == 7)
+		begin
+			an = 7;
+			case(min1)
+				0: seg = 192;
+				1: seg = 249;
+				2: seg = 164;
+				3: seg = 176;
+				4: seg = 153;
+				5: seg = 146;
+				6: seg = 130;
+				7: seg = 248;
+				8: seg = 128;
+				9: seg = 144;
+			endcase
 		end
-	endtask
-	
-	task seven;
-	begin
-			seg[0]=0;
-			seg[1]=0;
-			seg[2]=0;
-			seg[3]=1;
-			seg[4]=1;
-			seg[5]=1;
-			seg[6]=1;
+		if (j == 8)
+		begin
+			an = 15;
+			seg = 255;
+			j = -1;
 		end
-	endtask
-	
-	task eight;
-	begin
-			seg[0]=0;
-			seg[1]=0;
-			seg[2]=0;
-			seg[3]=0;
-			seg[4]=0;
-			seg[5]=0;
-			seg[6]=0;
-		end
-	endtask
-	
-	task nine;
-	begin
-			seg[0]=0;
-			seg[1]=0;
-			seg[2]=0;
-			seg[3]=0;
-			seg[4]=1;
-			seg[5]=0;
-			seg[6]=0;
-		end
-	endtask
-	
-	task clear;
-	begin
-			seg[0]=1;
-			seg[1]=1;
-			seg[2]=1;
-			seg[3]=1;
-			seg[4]=1;
-			seg[5]=1;
-			seg[6]=1;
-	end
-	endtask
-	
-	assign an_out = an;
-	assign seg_out = seg;
+		
+		j = j + 1;
+		
+	 end
 			
 endmodule
